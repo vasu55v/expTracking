@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/hero.css";
 import img1 from "../assets/home1.png";
 import img2 from "../assets/home2.png";
+import { motion } from 'framer-motion'
 
 const Hero = () => {
   return (
@@ -40,8 +41,12 @@ const Hero = () => {
         </button>
       </div>
       <div className="hero-img">
-        <img src={img1} className="img1" />
-        <img src={img2} className="img2" />
+        <motion.img 
+           initial={{x:100,opacity:0}}
+           animate={{x:0,opacity:1}}
+           transition={{duration:1,delay:1}}
+         src={img1} className="img1" />
+        <motion.img src={img2} className="img2" />
       </div>
     </div>
   );

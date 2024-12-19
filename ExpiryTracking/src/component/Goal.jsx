@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/goal.css";
+import { motion } from 'framer-motion'
 
 const Goal = () => {
   return (
@@ -12,7 +13,11 @@ const Goal = () => {
       <center>
       <div className="goals">
         <div className="set1">
-        <p className="goal-p1">
+        <motion.p 
+         whileInView={{opacity:1,x:0}}
+         initial={{opacity:0,x:-100}}
+         transition={{duration:1}}
+          className="goal-p1">
           <svg
             width="24"
             height="24"
@@ -26,8 +31,9 @@ const Goal = () => {
             />
           </svg>
           Expiry tracking
-        </p>
-        <p className="goal-p2">
+        </motion.p>
+        <p 
+         className="goal-p2">
           <svg
             width="24"
             height="24"
@@ -42,7 +48,11 @@ const Goal = () => {
           </svg>
           Easy to use
         </p>
-        <p className="goal-p3">
+        <motion.p 
+         whileInView={{opacity:1,x:0}}
+         initial={{opacity:0,x:-100}}
+         transition={{duration:1}}
+         className="goal-p3">
           <svg
             width="24"
             height="24"
@@ -56,8 +66,10 @@ const Goal = () => {
             />
           </svg>
           Notification reminders
-        </p>
-        <p className="goal-p4">
+        </motion.p>
+        <p 
+       
+         className="goal-p4">
           <svg
             width="24"
             height="24"
@@ -74,7 +86,11 @@ const Goal = () => {
         </p>
         </div>
         <div className="set2">
-        <p className="goal-p5">
+        <motion.p 
+         whileInView={{opacity:1,x:0}}
+         initial={{opacity:0,x:-100}}
+         transition={{duration:1}}
+         className="goal-p5">
           <svg
             width="24"
             height="24"
@@ -88,8 +104,9 @@ const Goal = () => {
             />
           </svg>
           Sort and filter by product
-        </p>
-        <p className="goal-p6">
+        </motion.p>
+        <p 
+         className="goal-p6">
           <svg
             width="24"
             height="24"
@@ -104,7 +121,11 @@ const Goal = () => {
           </svg>
           History
         </p>
-        <p className="goal-p7">
+        <motion.p 
+         whileInView={{opacity:1,x:0}}
+         initial={{opacity:0,x:-100}}
+         transition={{duration:1}}
+         className="goal-p7">
           <svg
             width="24"
             height="24"
@@ -118,7 +139,7 @@ const Goal = () => {
             />
           </svg>
           Material design 3 compatible
-        </p>
+        </motion.p>
       </div>
       </div>
       </center>

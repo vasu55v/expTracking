@@ -1,0 +1,46 @@
+.goals .set1{
+    display: inline-flex;
+
+}
+
+.goals .set2{
+    display: inline-flex;
+}
+
+svg{
+    padding: 0px 10px;
+}
+/* 
+.goals .set1 p{
+    color: #21005D;
+    background-color: #EADDFF;
+    max-width: 250px;
+    width: 100%;
+    display:flex;
+    padding: 8px 20px;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-right:20px;
+} */
+
+.goal-main-text{
+    color: #fff;
+    font-size:1.8em;
+    margin-left: 5%;
+}
+
+.goal-main-text:nth-child(2){
+    color: #bebebe;
+    margin-left: 14%;
+}
+
+.goal-p1,.goal-p2,.goal-p3,.goal-p4,.goal-p5,.goal-p6,.goal-p7{
+    color: #21005D;
+    background-color: #EADDFF;
+    /* width: 200px; */
+    display:flex;
+    padding: 8px 16px;
+    font-size: 18px;
+    border-radius: 12px;
+    margin-right:20px ;
+}

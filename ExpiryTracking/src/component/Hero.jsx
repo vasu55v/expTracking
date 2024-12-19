@@ -9,7 +9,7 @@ const Hero = () => {
       <div className="hero-font">
         <h1>Veriprod helps to keep track of your products’s validity.</h1>
         <button className="styled-button">
-          Lets's Start
+          Let's Start
           <div className="inner-button">
             <svg
               id="Arrow"

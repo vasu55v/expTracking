@@ -13,10 +13,7 @@ const Goal = () => {
       <center>
       <div className="goals">
         <div className="set1">
-        <motion.p 
-         whileInView={{opacity:1,x:0}}
-         initial={{opacity:0,x:-100}}
-         transition={{duration:1}}
+        <p 
           className="goal-p1">
           <svg
             width="24"
@@ -31,7 +28,7 @@ const Goal = () => {
             />
           </svg>
           Expiry tracking
-        </motion.p>
+        </p>
         <p 
          className="goal-p2">
           <svg
@@ -48,10 +45,7 @@ const Goal = () => {
           </svg>
           Easy to use
         </p>
-        <motion.p 
-         whileInView={{opacity:1,x:0}}
-         initial={{opacity:0,x:-100}}
-         transition={{duration:1}}
+        <p 
          className="goal-p3">
           <svg
             width="24"
@@ -66,7 +60,7 @@ const Goal = () => {
             />
           </svg>
           Notification reminders
-        </motion.p>
+        </p>
         <p 
        
          className="goal-p4">
@@ -86,10 +80,7 @@ const Goal = () => {
         </p>
         </div>
         <div className="set2">
-        <motion.p 
-         whileInView={{opacity:1,x:0}}
-         initial={{opacity:0,x:-100}}
-         transition={{duration:1}}
+        <p 
          className="goal-p5">
           <svg
             width="24"
@@ -104,7 +95,7 @@ const Goal = () => {
             />
           </svg>
           Sort and filter by product
-        </motion.p>
+        </p>
         <p 
          className="goal-p6">
           <svg
@@ -121,10 +112,7 @@ const Goal = () => {
           </svg>
           History
         </p>
-        <motion.p 
-         whileInView={{opacity:1,x:0}}
-         initial={{opacity:0,x:-100}}
-         transition={{duration:1}}
+        <p
          className="goal-p7">
           <svg
             width="24"
@@ -139,7 +127,7 @@ const Goal = () => {
             />
           </svg>
           Material design 3 compatible
-        </motion.p>
+        </p>
       </div>
       </div>
       </center>

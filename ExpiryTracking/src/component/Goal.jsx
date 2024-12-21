@@ -3,17 +3,38 @@ import "../styles/goal.css";
 import { motion } from 'framer-motion'
 
 const Goal = () => {
+
+  const iconVariants=(duration)=>({
+    initial:{y:-10},
+    animate:{
+      y:[10,-10],
+      transition:{
+        duration:duration,
+        ease:"linear",
+        repeat:Infinity,
+        repeatType:"reverse",
+      }
+    }
+  })
+
   return (
     <div className="goal-container">
       <p className="goal-main-text">
         The main goal was to create an app that keep track of a product's expiry
         date with minimal effort.
       </p>
-      <p className="goal-main-text">Veriprod's main goal, broken down into small steps:</p>
+      <motion.p
+      whileInView={{opacity:1,x:0}}
+      initial={{opacity:0,x:-100}}
+      transition={{duration:1}}
+       className="goal-main-text">Veriprod's main goal, broken down into small steps:</motion.p>
       <center>
       <div className="goals">
         <div className="set1">
-        <p 
+        <motion.p
+          initial="initial"
+          animate="animate"
+          variants={iconVariants(2)}
           className="goal-p1">
           <svg
             width="24"
@@ -28,8 +49,11 @@ const Goal = () => {
             />
           </svg>
           Expiry tracking
-        </p>
-        <p 
+        </motion.p>
+        <motion.p 
+         initial="initial"
+         animate="animate"
+         variants={iconVariants(2)}
          className="goal-p2">
           <svg
             width="24"
@@ -44,8 +68,11 @@ const Goal = () => {
             />
           </svg>
           Easy to use
-        </p>
-        <p 
+        </motion.p>
+        <motion.p
+         initial="initial"
+         animate="animate"
+         variants={iconVariants(2)} 
          className="goal-p3">
           <svg
             width="24"
@@ -60,9 +87,11 @@ const Goal = () => {
             />
           </svg>
           Notification reminders
-        </p>
-        <p 
-       
+        </motion.p>
+        <motion.p 
+        initial="initial"
+        animate="animate"
+        variants={iconVariants(2)}
          className="goal-p4">
           <svg
             width="24"
@@ -77,10 +106,13 @@ const Goal = () => {
             />
           </svg>
           Simple add product interface
-        </p>
+        </motion.p>
         </div>
         <div className="set2">
-        <p 
+        <motion.p 
+         initial="initial"
+         animate="animate"
+         variants={iconVariants(2)}
          className="goal-p5">
           <svg
             width="24"
@@ -95,8 +127,11 @@ const Goal = () => {
             />
           </svg>
           Sort and filter by product
-        </p>
-        <p 
+        </motion.p>
+        <motion.p
+         initial="initial"
+         animate="animate"
+         variants={iconVariants(2)} 
          className="goal-p6">
           <svg
             width="24"
@@ -111,8 +146,11 @@ const Goal = () => {
             />
           </svg>
           History
-        </p>
-        <p
+        </motion.p>
+        <motion.p
+         initial="initial"
+         animate="animate"
+         variants={iconVariants(2)}
          className="goal-p7">
           <svg
             width="24"
@@ -127,7 +165,7 @@ const Goal = () => {
             />
           </svg>
           Material design 3 compatible
-        </p>
+        </motion.p>
       </div>
       </div>
       </center>

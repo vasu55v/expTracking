@@ -3,13 +3,19 @@ import "../styles/hero.css";
 import img1 from "../assets/home1.png";
 import img2 from "../assets/home2.png";
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate=useNavigate();
+
+  const navigateToProducts=()=>{
+        navigate('/product');
+  }
   return (
     <div className="hero-main">
       <div className="hero-font">
         <h1>Veriprod helps to keep track of your products’s validity.</h1>
-        <button className="styled-button">
+        <button className="styled-button" onClick={navigateToProducts}>
           Let's Start
           <div className="inner-button">
             <svg

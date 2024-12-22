@@ -31,6 +31,7 @@
     align-items: center;
     justify-content: center;
     border: 1px solid #292929;
+    margin-top: 30%;
   }
   
   .styled-button::before {
@@ -127,6 +128,7 @@
         /* position: relative; */
         padding: 0.2em 1rem;
         font-size: 12px;
+        margin-top:0%;
     }
   }
   

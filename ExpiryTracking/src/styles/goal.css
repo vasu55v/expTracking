@@ -10,18 +10,6 @@
 svg{
     padding: 0px 10px;
 }
-/* 
-.goals .set1 p{
-    color: #21005D;
-    background-color: #EADDFF;
-    max-width: 250px;
-    width: 100%;
-    display:flex;
-    padding: 8px 20px;
-    font-size: 18px;
-    border-radius: 12px;
-    margin-right:20px;
-} */
 
 .goal-main-text{
     color: #fff;
@@ -44,6 +32,14 @@ svg{
     border-radius: 12px;
     margin-right:20px;
     cursor: grab;
+    max-width:300px;
+}
+
+@media only screen and (max-width: 770px) {
+    .goal-p1,.goal-p2,.goal-p3,.goal-p4,.goal-p5,.goal-p6,.goal-p7{
+        font-size: 15px;
+        /* width: 100%; */
+    }
 }
 
 
@@ -73,8 +69,6 @@ svg{
         margin-left: 5%;
     }
     
-   
-
     svg{
         padding: 0px 10px;
     }

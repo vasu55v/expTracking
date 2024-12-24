@@ -2,10 +2,49 @@ import React from "react";
 import "../styles/products.css";
 import { IoMdHome  } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { IoMdAdd } from "react-icons/io";
+
+
 const Products = () => {
 
   const navigate=useNavigate();
   const product = [
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
+    {
+      name: "Nestle EveryDay",
+      exp: "Expires in 30 days",
+      expDate: "12/12/2023",
+      img: "https://via.placeholder.com/50",
+    },
     {
       name: "Nestle EveryDay",
       exp: "Expires in 30 days",
@@ -83,7 +122,12 @@ const Products = () => {
   const navigateToHome=()=>{
      navigate('/');
   }
+
+  const navigateToAddProducts=()=>{
+    navigate('/AddProduct');
+ }
   return (
+    <>
     <div className="product-main-container">
       <div className="product-header-container">
         <h1>Products</h1>
@@ -138,6 +182,8 @@ const Products = () => {
         })}
       </div>
     </div>
+    <button className="addProductButton" onClick={navigateToAddProducts}><IoMdAdd /></button>
+    </>
   );
 };
 

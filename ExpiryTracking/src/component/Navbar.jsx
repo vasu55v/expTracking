@@ -37,10 +37,10 @@ const Navbar = () => {
           <a href="/addproduct">Add Product</a>
         </li>
         <li>
-          <a href="#">Login</a>
+          <a href="/Login">Login</a>
         </li>
         <li>
-          <a href="#">Sign Up</a>
+          <a href="/SignUp">Sign Up</a>
         </li>
       </ul>
     </nav>

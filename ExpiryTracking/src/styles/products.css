@@ -59,6 +59,13 @@
       font-weight: 900;
   }
 
+  .search-box{
+     border: none;
+     background-color: transparent;
+     font-size: 12px;
+     width: 100px;
+  }
+
   @media (max-width: 768px) {
     body {
       padding: 10px;
@@ -94,6 +101,12 @@
       z-index: 999;
       margin-right: 5px;
   }
+  .search-box{
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+    width: 75px;
+ }
   }
 
   @media (max-width: 480px) {

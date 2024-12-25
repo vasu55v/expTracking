@@ -149,7 +149,7 @@ const Products = () => {
             </svg>
             Filter
           </p>
-          <p>
+          {/* <p>
             <svg className="svg-hide"
               width="24"
               height="24"
@@ -163,10 +163,11 @@ const Products = () => {
               />
             </svg>
             Sort by
-          </p>
+          </p> */}
           <p>
          <IoMdHome className="home-icon" onClick={navigateToHome}/>
           </p>
+          <p><input type="text" placeholder="Search" className="search-box" /></p>
         </div>
       </div>
       <div className="product-container">

@@ -1,0 +1,145 @@
+.main-signup-container {
+    height: 100%;
+    /* width: 100%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 5vw, 2rem);
+    overflow-y: hidden;
+  }
+
+.card-signup {
+  background-color: #18181B;
+  width: min(90%, 400px);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-signup {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+}
+
+.header-signup h1{
+  margin-left: 32%;
+}
+
+.back-button {
+  color: white;
+  background: none;
+  border: none;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.title {
+  color: white;
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
+  font-weight: 500;
+}
+
+.photo-upload {
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+}
+
+.photo-container {
+  width: clamp(96px, 20vw, 128px);
+  height: clamp(96px, 20vw, 128px);
+  border: 2px dashed #52525B;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.photo-container:hover {
+  border-color: #A78BFA;
+}
+
+.plus-icon {
+  color: #71717A;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.hidden {
+  display: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.input-signup {
+  /* width: 100%; */
+  padding: clamp(0.625rem, 2vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+  background-color: #27272A;
+  border: 1px solid #3F3F46;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  transition: border-color 0.2s;
+}
+
+.input-signup:focus {
+  outline: none;
+  border-color: #A78BFA;
+}
+
+.input-signup::placeholder {
+  color: #71717A;
+}
+
+.register-button {
+  width: 100%;
+  padding: clamp(0.625rem, 2vw, 0.75rem);
+  background-color: #A78BFA;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-button:hover {
+  background-color: #9061F9;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .main-signup-container {
+    padding: 0.75rem;
+  }
+
+  .card-signup {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .input-signup {
+    padding: 0.875rem 1.125rem;
+  }
+
+  .register-button {
+    padding: 0.875rem;
+  }
+}

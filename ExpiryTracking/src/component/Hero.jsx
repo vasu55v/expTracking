@@ -9,7 +9,7 @@ const Hero = () => {
   const navigate=useNavigate();
 
   const navigateToProducts=()=>{
-        navigate('/product');
+        navigate('/products');
   }
   return (
     <div className="hero-main">

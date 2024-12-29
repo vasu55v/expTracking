@@ -14,6 +14,18 @@ class UserSerializer(serializers.ModelSerializer):
         fields=['id','first_name','last_name','email','username','password']
         extra_kwargs={"password":{"write_only":True}}
 
+class MainUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=MainUserModel
+        fields=["id","User","ProfileImg"]
+
+class MainUserSerializerDetail(serializers.ModelSerializer):
+    user=UserSerializer
+    class Meta:
+        model=MainUserModel
+        fields=["id","User","ProfileImg"]
+    
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model=Product

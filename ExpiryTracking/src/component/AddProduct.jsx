@@ -77,6 +77,7 @@ const AddProduct = () => {
             />
           </div>
           <input type="text" className="form-input" placeholder="Name" />
+          <textarea className="form-input" placeholder="Description" />
           <input type="date" className="form-input" placeholder="Expiry date" />
           <button className="submit-btn">Add product</button>
         </div>

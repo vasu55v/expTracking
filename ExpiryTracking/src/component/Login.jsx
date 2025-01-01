@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/signup.css';
 import { useNavigate } from 'react-router-dom';
+import api from '../Api';
 
 const Login = () => {
     
@@ -8,6 +9,33 @@ const Login = () => {
       const navigateToHome = () => {
         navigate("/");
       };
+
+      const [userData,setUserData]=useState({
+        username:'',
+        password:'',
+      })
+
+      const inputHandler = (e) => {
+        setUserData({
+          ...userData,
+          [e.target.name]:e.target.value,
+        })
+      }
+
+      const handleSubmit=(e)=>{
+         e.preventDefault();
+         const formData=new FormData();
+         formData.append('username',userData.username);
+         formData.append('password',userData.password);
+
+         api.post('track/User/Login/',formData)
+         .then((response)=>{
+          console.log(response)
+         })
+         .catch((error)=>{
+            console.log(error)
+         })
+      }
 
   return (
    <div className="main-signup-container">
@@ -17,10 +45,10 @@ const Login = () => {
           <h1 className="title">Login</h1>
           <div />
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" className="input-signup" placeholder="Username" required />
-            <input type="password" className="input-signup" placeholder="Password" required />
+            <input type="text" className="input-signup" name="username" onChange={inputHandler} placeholder="Username" required />
+            <input type="password" className="input-signup" name="password" onChange={inputHandler} placeholder="Password" required />
           </div>
           <button type="submit" className="register-button">
             Register

@@ -66,7 +66,7 @@ def User_register_view(request):
             try:
               MainUser = MainUserModel.objects.create(
                 user=user,
-                profile_photo=ProfileImg,
+                ProfileImg=ProfileImg,
             )
 
               message = {

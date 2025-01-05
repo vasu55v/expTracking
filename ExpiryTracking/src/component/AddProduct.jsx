@@ -2,9 +2,24 @@ import React, { useState } from "react";
 import "../styles/addProduct.css";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import api from "../Api";
 
 const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
+
+  const [ProductData, setProductData] = useState({
+    ProductImg: null,
+    ProductName: "",
+    description: "",
+    ExpDate: "",
+  });
+
+  const InputHandler = (e) => {
+    setProductData({
+      ...ProductData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const navigate = useNavigate();
   const navigateToHome = () => {
@@ -24,6 +39,24 @@ const AddProduct = () => {
 
   const triggerFileInput = () => {
     document.getElementById("file-upload").click();
+  };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    // formData.append('user',UserId);
+    formData.append('user',1);
+    formData.append('ProductName',ProductData.ProductName);
+    formData.append('description',ProductData.description);
+    formData.append('ProductImg',ProductData.ProductImg);
+    formData.append('ExpiryDate',ProductData.ExpDate);
+
+    api.post('track/AddProduct/',formData)
+    .then((response)=>{
+      console.log(response.data)
+    })
+    .catch((error)=>{
+      console.log(error.data)
+    })
   };
 
   return (
@@ -74,12 +107,13 @@ const AddProduct = () => {
               accept="image/*"
               onChange={handleFileChange}
               className="hidden"
+              name="ProductImg"
             />
           </div>
-          <input type="text" className="form-input" placeholder="Name" />
-          <textarea className="form-input" placeholder="Description" />
-          <input type="date" className="form-input" placeholder="Expiry date" />
-          <button className="submit-btn">Add product</button>
+          <input type="text" className="form-input" name="ProductName" onChange={InputHandler} placeholder="Name" />
+          <textarea className="form-input" name="description" onChange={InputHandler} placeholder="Description" />
+          <input type="date" className="form-input" name="ExpDate" onChange={InputHandler} placeholder="Expiry date" />
+          <button className="submit-btn" onClick={handleSubmit} >Add product</button>
         </div>
       </div>
     </>

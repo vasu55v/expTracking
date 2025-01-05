@@ -53,6 +53,13 @@
     color: #ffffff;
 }
 
+.profileImageNav{
+  width: 30px;
+  border-radius: 50%;
+  border: 1px solid rgb(89, 0, 255);
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
     .menu-toggle {
         display: block;
@@ -89,3 +96,4 @@
         width: 100%;
     }
 }
+

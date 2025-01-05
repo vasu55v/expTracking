@@ -42,6 +42,9 @@ const Navbar = () => {
         <li>
           <a href="/SignUp">Sign Up</a>
         </li>
+        <li>
+          <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" className="profileImageNav" alt="Profile Image"/>
+        </li>
       </ul>
     </nav>
   );

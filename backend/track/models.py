@@ -11,7 +11,7 @@ class MainUserModel(models.Model):
 
 
 class Product(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    user=models.ForeignKey(MainUserModel, on_delete=models.CASCADE)
     ProductName=models.CharField(max_length=200)
     description=models.TextField(default="No description")
     ProductImg=models.ImageField(upload_to="Product_image")

@@ -28,7 +28,7 @@ const Login = () => {
          formData.append('username',userData.username);
          formData.append('password',userData.password);
 
-         api.post('track/User/Login/',formData)
+         api.post('track/token/',formData)
          .then((response)=>{
           console.log(response)
          })

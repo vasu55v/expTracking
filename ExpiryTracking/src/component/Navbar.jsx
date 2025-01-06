@@ -14,6 +14,16 @@ const Navbar = () => {
     }
   };
 
+  const LogOut=()=>{
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    localStorage.removeItem("userid");
+    // Cookies.remove('vendor_id');
+    // Cookies.remove('Customer_id'); 
+    navigate('/');
+    location.reload(); 
+  }
+
   return (
     <nav className="navbar">
       <a href="#" className="logo">
@@ -41,6 +51,9 @@ const Navbar = () => {
         </li>
         <li>
           <a href="/SignUp">Sign Up</a>
+        </li>
+        <li>
+          <a href="" onClick={LogOut} className="LogoutBtn">LogOut</a>
         </li>
         <li>
           <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" className="profileImageNav" alt="Profile Image"/>

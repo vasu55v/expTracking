@@ -60,6 +60,12 @@
   cursor: pointer;
 }
 
+.LogoutBtn{
+  background-color: transparent;
+  border: none;
+  color: #fff;
+}
+
 @media screen and (max-width: 768px) {
     .menu-toggle {
         display: block;

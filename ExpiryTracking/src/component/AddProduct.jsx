@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/addProduct.css";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../Api";
+import { jwtDecode } from "jwt-decode";
 
 const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -13,6 +14,8 @@ const AddProduct = () => {
     description: "",
     ExpDate: "",
   });
+
+  const [UserId,setUserId]=useState(null);
 
   const InputHandler = (e) => {
     setProductData({
@@ -34,7 +37,12 @@ const AddProduct = () => {
         setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
+      setProductData({
+        ...ProductData,
+        [e.target.name]: e.target.files[0],
+      });
     }
+   
   };
 
   const triggerFileInput = () => {
@@ -43,8 +51,8 @@ const AddProduct = () => {
 
   const handleSubmit = () => {
     const formData = new FormData();
-    // formData.append('user',UserId);
-    formData.append('user',1);
+    formData.append('user',UserId);
+    // formData.append('user',1);
     formData.append('ProductName',ProductData.ProductName);
     formData.append('description',ProductData.description);
     formData.append('ProductImg',ProductData.ProductImg);
@@ -58,6 +66,14 @@ const AddProduct = () => {
       console.log(error.data)
     })
   };
+
+  useEffect(()=>{
+    const token=localStorage.getItem('access');
+     if(token){
+      const data=jwtDecode(token);
+      setUserId(data.user_id);
+     }
+  },[])
 
   return (
     <>

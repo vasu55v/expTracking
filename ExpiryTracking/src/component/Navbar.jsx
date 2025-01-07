@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "../styles/navbar.css";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [open, SetOpen] = useState(false);
+  const navigate = useNavigate();
 
   const Toggle = () => {
     if (open) {
@@ -53,7 +55,7 @@ const Navbar = () => {
           <a href="/SignUp">Sign Up</a>
         </li>
         <li>
-          <a href="" onClick={LogOut} className="LogoutBtn">LogOut</a>
+          <a onClick={LogOut} className="LogoutBtn">LogOut</a>
         </li>
         <li>
           <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" className="profileImageNav" alt="Profile Image"/>

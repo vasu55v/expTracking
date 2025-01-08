@@ -16,6 +16,7 @@ const AddProduct = () => {
   });
 
   const [UserId,setUserId]=useState(null);
+  const [MainUserId,setMainUserId]=useState(null);
 
   const InputHandler = (e) => {
     setProductData({
@@ -49,9 +50,43 @@ const AddProduct = () => {
     document.getElementById("file-upload").click();
   };
 
+  useEffect(()=>{
+    api.get(`/track/MainUserList/${UserId}/`)
+    .then((response)=>{
+      console.log(response.data[0].id);
+      setMainUserId(response.data[0].id);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  },[])
+
+  
+  
+  // useEffect(() => {
+  //   if (UserId) {
+  //     const FetchMainUserId = async () => {
+  //       try {
+  //         const response = await fetch(`/track/MainUserList/${UserId}/`);
+  //         if (response.ok) {
+  //           const result = await response.json();
+  //           console.log(result);
+  //           setMainUserId(result);
+  //         } else {
+  //           console.error(`HTTP error! status: ${response.status}`);
+  //         }
+  //       } catch (error) {
+  //         console.error('Error fetching MainUserId:', error);
+  //       }
+  //     };
+  //     FetchMainUserId();
+  //   }
+  // }, [UserId]);
+  
+
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append('user',UserId);
+    formData.append('user',MainUserId);
     // formData.append('user',1);
     formData.append('ProductName',ProductData.ProductName);
     formData.append('description',ProductData.description);
@@ -74,6 +109,7 @@ const AddProduct = () => {
       setUserId(data.user_id);
      }
   },[])
+
 
   return (
     <>

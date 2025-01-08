@@ -13,6 +13,17 @@ from django.db import IntegrityError
 from django.http import JsonResponse
 
 
+class MainUserListView(generics.ListAPIView):
+    queryset=MainUserModel.objects.all()
+    serializer_class=MainUserSerializerDetail
+    permission_classes=[AllowAny]
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        User_id=self.kwargs["id"]
+        qs=qs.filter(user=User_id)
+        return qs
+
 # Create your views here.
 class ProductListView(generics.ListAPIView):
     queryset=Product.objects.all()

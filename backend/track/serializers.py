@@ -17,13 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
 class MainUserSerializer(serializers.ModelSerializer):
     class Meta:
         model=MainUserModel
-        fields=["id","User","ProfileImg"]
+        fields=["id","user","ProfileImg"]
 
 class MainUserSerializerDetail(serializers.ModelSerializer):
     user=UserSerializer
     class Meta:
         model=MainUserModel
-        fields=["id","User","ProfileImg"]
+        fields=["id","user","ProfileImg"]
     
 
 class ProductSerializer(serializers.ModelSerializer):

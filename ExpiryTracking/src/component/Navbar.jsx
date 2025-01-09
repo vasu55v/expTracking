@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/navbar.css";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
@@ -16,6 +16,8 @@ const Navbar = () => {
     }
   };
 
+  
+
   const LogOut=()=>{
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
@@ -25,6 +27,15 @@ const Navbar = () => {
     navigate('/');
     location.reload(); 
   }
+
+  const [token,SetToken]=useState(null);
+  
+  useEffect(()=>{
+       const AccessToken = localStorage.getItem("access");
+       if(AccessToken){
+        SetToken(AccessToken)
+       }
+  },[])
 
   return (
     <nav className="navbar">
@@ -48,15 +59,21 @@ const Navbar = () => {
         <li>
           <a href="/addproduct">Add Product</a>
         </li>
+        {!token &&
+        <>
         <li>
           <a href="/Login">Login</a>
         </li>
         <li>
           <a href="/SignUp">Sign Up</a>
         </li>
+        </>
+         }
+         {token&&
         <li>
           <a onClick={LogOut} className="LogoutBtn">LogOut</a>
         </li>
+         }
         <li>
           <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" className="profileImageNav" alt="Profile Image"/>
         </li>

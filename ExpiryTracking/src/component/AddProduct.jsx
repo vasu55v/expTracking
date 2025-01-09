@@ -53,13 +53,14 @@ const AddProduct = () => {
   useEffect(()=>{
     api.get(`/track/MainUserList/${UserId}/`)
     .then((response)=>{
-      console.log(response.data[0].id);
+      // console.log(response.data[0].id);
       setMainUserId(response.data[0].id);
+      console.log(MainUserId)
     })
     .catch((error)=>{
       console.log(error);
     })
-  },[])
+  },[UserId])
 
   
   
@@ -96,6 +97,12 @@ const AddProduct = () => {
     api.post('track/AddProduct/',formData)
     .then((response)=>{
       console.log(response.data)
+      setProductData({
+        ProductImg: null,
+        ProductName: "",
+        description: "",
+        ExpDate: "",
+      })
     })
     .catch((error)=>{
       console.log(error.data)

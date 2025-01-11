@@ -7,6 +7,11 @@ import { jwtDecode } from "jwt-decode";
 
 const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [error, setError] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const today = new Date().toISOString().split('T')[0];
 
   const [ProductData, setProductData] = useState({
     ProductImg: null,
@@ -15,13 +20,70 @@ const AddProduct = () => {
     ExpDate: "",
   });
 
-  const [UserId,setUserId]=useState(null);
-  const [MainUserId,setMainUserId]=useState(null);
+  const [UserId, setUserId] = useState(null);
+  const [MainUserId, setMainUserId] = useState(null);
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!ProductData.ProductName.trim()) {
+      newErrors.ProductName = "Product name is required";
+    }
+    
+    if (!ProductData.ProductImg) {
+      newErrors.ProductImg = "Product image is required";
+    }
+    
+    if (!ProductData.ExpDate) {
+      newErrors.ExpDate = "Expiry date is required";
+    } else {
+      const selectedDateTime = new Date(ProductData.ExpDate).getTime();
+      const todayTime = new Date(today).getTime();
+      if (selectedDateTime <= todayTime) {
+        newErrors.ExpDate = "Please select a future date";
+      }
+    }
+
+    setError(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const InputHandler = (e) => {
     setProductData({
       ...ProductData,
       [e.target.name]: e.target.value,
+    });
+    // Clear error when user starts typing
+    if (error[e.target.name]) {
+      setError({
+        ...error,
+        [e.target.name]: ""
+      });
+    }
+  };
+
+  const InputDateHandler = (e) => {
+    const selected = e.target.value;
+    setSelectedDate(selected);
+    
+    const selectedDateTime = new Date(selected).getTime();
+    const todayTime = new Date(today).getTime();
+    
+    if (selectedDateTime <= todayTime) {
+      setError({
+        ...error,
+        ExpDate: "Please select a future date"
+      });
+    } else {
+      setError({
+        ...error,
+        ExpDate: ""
+      });
+    }
+    
+    setProductData({
+      ...ProductData,
+      ExpDate: selected,
     });
   };
 
@@ -33,90 +95,96 @@ const AddProduct = () => {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-      setProductData({
-        ...ProductData,
-        [e.target.name]: e.target.files[0],
-      });
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setProductData({
+          ...ProductData,
+          ProductImg: file,
+        });
+        // Clear error when valid file is selected
+        setError({
+          ...error,
+          ProductImg: ""
+        });
+      } else {
+        setError({
+          ...error,
+          ProductImg: "Please select a valid image file"
+        });
+      }
     }
-   
   };
 
   const triggerFileInput = () => {
     document.getElementById("file-upload").click();
   };
 
-  useEffect(()=>{
-    api.get(`/track/MainUserList/${UserId}/`)
-    .then((response)=>{
-      // console.log(response.data[0].id);
-      setMainUserId(response.data[0].id);
-      console.log(MainUserId)
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-  },[UserId])
+  useEffect(() => {
+    if (UserId) {
+      api.get(`/track/MainUserList/${UserId}/`)
+        .then((response) => {
+          setMainUserId(response.data[0].id);
+        })
+        .catch((error) => {
+          console.error('Error fetching MainUserId:', error);
+        });
+    }
+  }, [UserId]);
 
-  
-  
-  // useEffect(() => {
-  //   if (UserId) {
-  //     const FetchMainUserId = async () => {
-  //       try {
-  //         const response = await fetch(`/track/MainUserList/${UserId}/`);
-  //         if (response.ok) {
-  //           const result = await response.json();
-  //           console.log(result);
-  //           setMainUserId(result);
-  //         } else {
-  //           console.error(`HTTP error! status: ${response.status}`);
-  //         }
-  //       } catch (error) {
-  //         console.error('Error fetching MainUserId:', error);
-  //       }
-  //     };
-  //     FetchMainUserId();
-  //   }
-  // }, [UserId]);
-  
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
 
-  const handleSubmit = () => {
+    setIsSubmitting(true);
+
     const formData = new FormData();
-    formData.append('user',MainUserId);
-    // formData.append('user',1);
-    formData.append('ProductName',ProductData.ProductName);
-    formData.append('description',ProductData.description);
-    formData.append('ProductImg',ProductData.ProductImg);
-    formData.append('ExpiryDate',ProductData.ExpDate);
+    formData.append('user', MainUserId);
+    formData.append('ProductName', ProductData.ProductName.trim());
+    formData.append('description', ProductData.description.trim());
+    formData.append('ProductImg', ProductData.ProductImg);
+    formData.append('ExpiryDate', ProductData.ExpDate);
 
-    api.post('track/AddProduct/',formData)
-    .then((response)=>{
-      console.log(response.data)
+    try {
+      const response = await api.post('track/AddProduct/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      
+      console.log('Product added successfully:', response.data);
       setProductData({
         ProductImg: null,
         ProductName: "",
         description: "",
         ExpDate: "",
-      })
-    })
-    .catch((error)=>{
-      console.log(error.data)
-    })
+      });
+      setPreviewImage(null);
+      setSelectedDate("");
+      // Optionally navigate to home or show success message
+      navigate("/");
+    } catch (error) {
+      console.error('Error adding product:', error);
+      setError({
+        ...error,
+        submit: "Failed to add product. Please try again."
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  useEffect(()=>{
-    const token=localStorage.getItem('access');
-     if(token){
-      const data=jwtDecode(token);
+  useEffect(() => {
+    const token = localStorage.getItem('access');
+    if (token) {
+      const data = jwtDecode(token);
       setUserId(data.user_id);
-     }
-  },[])
-
+    }
+  }, []);
 
   return (
     <>
@@ -156,7 +224,6 @@ const AddProduct = () => {
                     fill="#E6E0E9"
                   />
                 </svg>
-
                 <span className="text-gray-500">Upload or take image</span>
               </>
             )}
@@ -169,10 +236,45 @@ const AddProduct = () => {
               name="ProductImg"
             />
           </div>
-          <input type="text" className="form-input" name="ProductName" onChange={InputHandler} placeholder="Name" />
-          <textarea className="form-input" name="description" onChange={InputHandler} placeholder="Description" />
-          <input type="date" className="form-input" name="ExpDate" onChange={InputHandler} placeholder="Expiry date" />
-          <button className="submit-btn" onClick={handleSubmit} >Add product</button>
+          {error.ProductImg && <div className="error-message">{error.ProductImg}</div>}
+          
+          <input 
+            type="text" 
+            className={`form-input ${error.ProductName ? 'error' : ''}`}
+            name="ProductName" 
+            value={ProductData.ProductName}
+            onChange={InputHandler} 
+            placeholder="Name" 
+          />
+          {error.ProductName && <div className="error-message">{error.ProductName}</div>}
+          
+          <textarea 
+            className="form-input" 
+            name="description" 
+            value={ProductData.description}
+            onChange={InputHandler} 
+            placeholder="Description" 
+          />
+          
+          <input
+            type="date"
+            className={`form-input ${error.ExpDate ? 'error' : ''}`}
+            name="ExpDate"
+            min={today}
+            value={selectedDate}
+            onChange={InputDateHandler}
+          />
+          {error.ExpDate && <div className="error-message">{error.ExpDate}</div>}
+          
+          {error.submit && <div className="error-message">{error.submit}</div>}
+          
+          <button 
+            className="submit-btn" 
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Adding product...' : 'Add product'}
+          </button>
         </div>
       </div>
     </>

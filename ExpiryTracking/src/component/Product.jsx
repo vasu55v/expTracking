@@ -1,16 +1,39 @@
-import React from 'react'
+import React, { useEffect ,useState} from 'react'
 import '../styles/product.css'
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { MdOutlineEdit  } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import api from '../Api';
+import { ACCESS_TOKEN } from '../Constants';
+import { jwtDecode } from "jwt-decode";
 
 const Product = () => {
     const navigate=useNavigate();
     const redirectToEdit=()=>{
         navigate('/edit')
     }
+
+    const [UserId, setUserId] = useState(null);
+    
+
+    useEffect(() => {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+          const data = jwtDecode(token);
+          setUserId(data.user_id);
+        }
+        api.get('/track/Products/'+UserId+'/')
+        .then((response)=>{
+           console.log(response.data)
+        })
+        .catch((error)=>{
+          console.log(error)
+        })
+      }, []);
+  
+  
   return (
     <div className='product-main-container'>
           <div className='product-header'>
@@ -26,4 +49,4 @@ const Product = () => {
   )
 }
 
-export default Product
+export default Product;

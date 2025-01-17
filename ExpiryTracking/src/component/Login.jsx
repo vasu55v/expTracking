@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../Api";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN,REFRESH_TOKEN } from "../Constants";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 const Login = () => {
   const navigate = useNavigate();
   const navigateToHome = () => {
@@ -35,10 +36,12 @@ const Login = () => {
         console.log(response);
         localStorage.setItem(ACCESS_TOKEN, response.data.access);
         localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
+        toast.success("LogeIn Successfully...!")
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Oops something went wrong please try again...!")
       });
   };
 

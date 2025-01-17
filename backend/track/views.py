@@ -24,22 +24,23 @@ class MainUserListView(generics.ListAPIView):
         qs=qs.filter(user=User_id)
         return qs
 
+
 # Create your views here.
 class ProductListView(generics.ListAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductDetailSerializer
     permission_classes=[AllowAny]
 
-# class ProductView(generics.ListAPIView):
-#     queryset=Color_And_Photos.objects.all()
-#     serializer_class=ColorAndPhotosDetailSerializer
-#     permission_classes=[AllowAny]
+class ProductAsPerUserView(generics.ListAPIView):
+    queryset=Product.objects.all()
+    serializer_class=ProductDetailSerializer
+    permission_classes=[AllowAny]
 
-#     def get_queryset(self):
-#         qs=super().get_queryset()
-#         Product_id=self.kwargs["pk"]
-#         qs=qs.filter(Product=Product_id)
-#         return qs
+    def get_queryset(self):
+        qs=super().get_queryset()
+        user_id=self.kwargs["pk"]
+        qs=qs.filter(user=user_id)
+        return qs
     
 class ProductCreateView(generics.CreateAPIView):
     queryset=Product.objects.all()

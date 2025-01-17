@@ -4,6 +4,8 @@ import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../Api";
 import { jwtDecode } from "jwt-decode";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -157,6 +159,7 @@ const AddProduct = () => {
       });
       
       console.log('Product added successfully:', response.data);
+      toast.success("Product Added Successfully.", { autoClose: 3000 });
       setProductData({
         ProductImg: null,
         ProductName: "",
@@ -169,6 +172,7 @@ const AddProduct = () => {
       navigate("/");
     } catch (error) {
       console.error('Error adding product:', error);
+      toast.success("Failed to add product. Please try again.", { autoClose: 3000 });
       setError({
         ...error,
         submit: "Failed to add product. Please try again."

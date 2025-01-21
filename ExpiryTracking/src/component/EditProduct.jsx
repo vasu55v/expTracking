@@ -14,11 +14,27 @@ const EditProduct = () => {
     const handleFileChange = (e) => {
       const file = e.target.files?.[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviewImage(reader.result);
-        };
-        reader.readAsDataURL(file);
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreviewImage(reader.result);
+          };
+          reader.readAsDataURL(file);
+          setProductData({
+            ...ProductData,
+            ProductImg: file,
+          });
+          // Clear error when valid file is selected
+          setError({
+            ...error,
+            ProductImg: ""
+          });
+        } else {
+          setError({
+            ...error,
+            ProductImg: "Please select a valid image file"
+          });
+        }
       }
     };
   
@@ -77,6 +93,13 @@ const EditProduct = () => {
               />
             </div>
             <input type="text" className="form-input" placeholder="Name" />
+            <textarea 
+            className="form-input" 
+            name="description" 
+            // value={ProductData.description}
+            // onChange={InputHandler} 
+            placeholder="Description" 
+          />
             <input type="date" className="form-input" placeholder="Expiry date" />
             <button className="submit-btn">Add product</button>
           </div>

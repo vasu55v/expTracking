@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/products.css";
 import { IoMdHome  } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
+import PopUpBtn from "./PopUpBtn";
 
 
 const Products = () => {
 
   const navigate=useNavigate();
+  const [IsOpen,SetIsOpen]=useState('false');
+  const handleOpen=()=>{
+     if(IsOpen=="true"){
+         SetIsOpen(false)
+     }else{
+      SetIsOpen(true)
+     }
+  }
   const product = [
     {
       name: "Nestle EveryDay",
@@ -128,12 +137,15 @@ const Products = () => {
  }
   return (
     <>
+    {IsOpen && 
+    <PopUpBtn />
+    }
     <div className="product-main-container">
       <div className="product-header-container">
         <h1>Products</h1>
         <div className="product-header-text">
           <p>Expiring soon</p>
-          <p>
+          <p onClick={handleOpen}>
             <svg
             className="svg-hide"
               width="24"

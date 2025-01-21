@@ -38,8 +38,20 @@ class ProductAsPerUserView(generics.ListAPIView):
 
     def get_queryset(self):
         qs=super().get_queryset()
-        user_id=self.kwargs["pk"]
+        user_id=self.kwargs["id"]
         qs=qs.filter(user=user_id)
+        return qs
+
+class OneProductAsPerUserView(generics.ListAPIView):
+    queryset=Product.objects.all()
+    serializer_class=ProductDetailSerializer
+    permission_classes=[AllowAny]
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        user_id=self.kwargs["id"]
+        Product_id=self.kwargs["pk"]
+        qs=qs.filter(id=Product_id,user=user_id)
         return qs
     
 class ProductCreateView(generics.CreateAPIView):
@@ -48,11 +60,17 @@ class ProductCreateView(generics.CreateAPIView):
     # permission_classes=[IsAuthenticated]
     permission_classes=[AllowAny]
 
-class ProductUpdateViewSet(generics.UpdateAPIView):
+class ProductDetailUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # permission_classes = [IsAuthenticated]
     permission_classes=[AllowAny]
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        Product_id=self.kwargs["pk"]
+        qs=qs.filter(id=Product_id)
+        return qs
 
 class ProductDeleteViewSet(generics.DestroyAPIView):
     queryset = Product.objects.all()

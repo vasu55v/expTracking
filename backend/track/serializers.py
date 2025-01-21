@@ -35,4 +35,4 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     user=UserSerializer
     class Meta:
         model=Product
-        fields=["user","ProductName","ProductImg","ExpiryDate","updatedAt"]
+        fields=["id","user","ProductName","ProductImg","ExpiryDate","updatedAt"]

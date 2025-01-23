@@ -7,7 +7,7 @@ import PopUpBtn from "./PopUpBtn";
 
 const Products = () => {
   const navigate = useNavigate();
-  const [IsOpen, SetIsOpen] = useState("false");
+  const [IsOpen, SetIsOpen] = useState(false);
 
   const product = [
     {
@@ -129,18 +129,11 @@ const Products = () => {
   };
 
   const showPopup = () => {
-    document.getElementById("popup").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
-    if (IsOpen == "true") {
-      SetIsOpen(false);
-    } else {
-      SetIsOpen(true);
-    }
+    SetIsOpen(true);
   };
 
   const closePopup = () => {
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
+    SetIsOpen(false);
   };
 
   const handleButton1 = () => {
@@ -152,12 +145,22 @@ const Products = () => {
     alert("Button 2 clicked");
     closePopup();
   };
+
   return (
     <>
       {IsOpen && (
         <>
-          <div className="overlay" id="overlay" />
-          <div className="popup" id="popup">
+          <div 
+            className="overlay" 
+            id="overlay" 
+            onClick={closePopup} 
+            style={{ display: 'block' }}
+          />
+          <div 
+            className="popup" 
+            id="popup" 
+            style={{ display: 'block' }}
+          >
             <h2>Popup Title</h2>
             <div className="popup-buttons">
               <button onClick={handleButton1}>Button 1</button>
@@ -187,21 +190,6 @@ const Products = () => {
               </svg>
               Filter
             </p>
-            {/* <p>
-            <svg className="svg-hide"
-              width="24"
-              height="24"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.5 17.5V16H8.87498V17.5H3.5ZM3.5 12.75V11.25H14.6827V12.75H3.5ZM3.5 8.00001V6.50003H20.5V8.00001H3.5Z"
-                fill="#8b8b8b"
-              />
-            </svg>
-            Sort by
-          </p> */}
             <p>
               <IoMdHome className="home-icon" onClick={navigateToHome} />
             </p>
@@ -211,16 +199,14 @@ const Products = () => {
           </div>
         </div>
         <div className="product-container">
-          {product.map((item, index) => {
-            return (
-              <div className="card" key={index}>
-                <h3>{item.name}</h3>
-                <p>{item.exp}</p>
-                <span>Expiry date:{item.expDate}</span>
-                <img src={item.img} alt="Nestle EveryDay" />
-              </div>
-            );
-          })}
+          {product.map((item, index) => (
+            <div className="card" key={index}>
+              <h3>{item.name}</h3>
+              <p>{item.exp}</p>
+              <span>Expiry date:{item.expDate}</span>
+              <img src={item.img} alt="Nestle EveryDay" />
+            </div>
+          ))}
         </div>
       </div>
       <button className="addProductButton" onClick={navigateToAddProducts}>

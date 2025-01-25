@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/products.css";
 import { IoMdHome } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import PopUpBtn from "./PopUpBtn";
+import api from "../Api";
 
 const Products = () => {
   const navigate = useNavigate();
   const [IsOpen, SetIsOpen] = useState(false);
+
+   useEffect(()=>{
+      // api.get('track/Products/'+'/'+)
+   },[])
 
   const product = [
     {

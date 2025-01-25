@@ -19,10 +19,11 @@
   }
 
   .card img {
-    width: 60px;
+    max-width: 60px;
+    width: auto;
     height: auto;
     position: absolute;
-    top: 45px;
+    top: 20px;
     right: 15px;
   }
 
@@ -102,6 +103,14 @@ button {
     cursor: pointer;
     border: none;
     border-radius: 10px;
+}
+
+.Loading{
+  color: #fff;
+}
+
+.error{
+  color: #fff;
 }
 
   @media (max-width: 768px) {

@@ -5,125 +5,192 @@ import { useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import PopUpBtn from "./PopUpBtn";
 import api from "../Api";
+import { ACCESS_TOKEN } from "../Constants";
+import { jwtDecode } from "jwt-decode";
+
 
 const Products = () => {
   const navigate = useNavigate();
   const [IsOpen, SetIsOpen] = useState(false);
+  const [userId,setUserId]=useState(null);
+  const [MainUserId, setMainUserId] = useState(null);
+  const [ProductData, setProductData] =useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+ 
+
+  useEffect(() => {
+    const token=localStorage.getItem(ACCESS_TOKEN);
+    const decoded=jwtDecode(token);
+    setUserId(decoded.user_id)
+    // console.log(decoded.user_id)
+    // if (userId) {
+    //   api.get(`/track/MainUserList/${userId}/`)
+    //     .then((response) => {
+    //       setMainUserId(response.data[0].id);
+    //       // console.log("res",response.data[0].id)
+    //     })
+    //     .catch((error) => {
+    //       console.error('Error fetching MainUserId:', error);
+    //     });
+    // }
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://127.0.0.1:8000/track/MainUserList/${userId}/`); // Replace with your API URL
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const result = await response.json();
+        setMainUserId("result",result[0].id);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [userId]);
 
    useEffect(()=>{
-      // api.get('track/Products/'+'/'+)
-   },[])
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`http://127.0.0.1:8000/track/Products/${MainUserId}/`); // Replace with your API URL
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+        const result = await response.json();
+        // setMainUserId("result",result[0].id);
+        console.log(result)
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+      // api.get('track/Products/'+MainUserId+'/')
+      // .then((Response)=>{
+      //   console.log(Response.data)
+      //   setProductData(Response.data)
+      // })
+      // .catch((error)=>{
+      //   console.log(error)
+      // })
+   },[MainUserId])
 
-  const product = [
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-    {
-      name: "Nestle EveryDay",
-      exp: "Expires in 30 days",
-      expDate: "12/12/2023",
-      img: "https://via.placeholder.com/50",
-    },
-  ];
+  // const product = [
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  //   {
+  //     name: "Nestle EveryDay",
+  //     exp: "Expires in 30 days",
+  //     expDate: "12/12/2023",
+  //     img: "https://via.placeholder.com/50",
+  //   },
+  // ];
 
   const navigateToHome = () => {
     navigate("/");
@@ -153,6 +220,13 @@ const Products = () => {
 
   return (
     <>
+    {loading && 
+      <p className="Loading">Loading........</p>
+    }
+    {
+      error && 
+      <p className="error">Error....</p>
+    }
       {IsOpen && (
         <>
           <div 
@@ -204,12 +278,12 @@ const Products = () => {
           </div>
         </div>
         <div className="product-container">
-          {product.map((item, index) => (
+          {ProductData.map((item, index) => (
             <div className="card" key={index}>
-              <h3>{item.name}</h3>
-              <p>{item.exp}</p>
-              <span>Expiry date:{item.expDate}</span>
-              <img src={item.img} alt="Nestle EveryDay" />
+              <h3>{item.ProductName}</h3>
+              <p>{item.ExpiryDate}</p>
+              <span>Expiry date:{item.ExpiryDate}</span>
+              <img src={item.ProductImg} alt="Nestle EveryDay" />
             </div>
           ))}
         </div>

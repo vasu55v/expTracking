@@ -20,40 +20,45 @@ const Products = () => {
 
  
 
-  useEffect(() => {
-    const token=localStorage.getItem(ACCESS_TOKEN);
-    const decoded=jwtDecode(token);
-    setUserId(decoded.user_id)
-    // console.log(decoded.user_id)
-    // if (userId) {
-    //   api.get(`/track/MainUserList/${userId}/`)
-    //     .then((response) => {
-    //       setMainUserId(response.data[0].id);
-    //       // console.log("res",response.data[0].id)
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error fetching MainUserId:', error);
-    //     });
-    // }
-    const fetchData = async () => {
+   useEffect(() => {
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    if (token) {
       try {
-        setLoading(true);
-        const response = await fetch(`http://127.0.0.1:8000/track/MainUserList/${userId}/`); // Replace with your API URL
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-        const result = await response.json();
-        setMainUserId("result",result[0].id);
+        const decoded = jwtDecode(token);
+        setUserId(decoded.user_id);
       } catch (err) {
-        setError(err.message);
-      } finally {
+        setError("Invalid token");
         setLoading(false);
       }
-    };
-    fetchData();
+    }
+  }, []);
+
+useEffect(() => {
+    if (userId) {
+      const fetchMainUser = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(`http://127.0.0.1:8000/track/MainUserList/${userId}/`);
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+          const result = await response.json();
+          if (result.length > 0) {
+            setMainUserId(result[0].id);
+          }
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchMainUser();
+    }
   }, [userId]);
 
    useEffect(()=>{
+        if (MainUserId) {
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -63,7 +68,8 @@ const Products = () => {
         }
         const result = await response.json();
         // setMainUserId("result",result[0].id);
-        console.log(result)
+        console.log("result:",result)
+        setProductData(result)
       } catch (err) {
         setError(err.message);
       } finally {
@@ -71,126 +77,10 @@ const Products = () => {
       }
     };
     fetchData();
-      // api.get('track/Products/'+MainUserId+'/')
-      // .then((Response)=>{
-      //   console.log(Response.data)
-      //   setProductData(Response.data)
-      // })
-      // .catch((error)=>{
-      //   console.log(error)
-      // })
+  }
    },[MainUserId])
 
-  // const product = [
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  //   {
-  //     name: "Nestle EveryDay",
-  //     exp: "Expires in 30 days",
-  //     expDate: "12/12/2023",
-  //     img: "https://via.placeholder.com/50",
-  //   },
-  // ];
+
 
   const navigateToHome = () => {
     navigate("/");

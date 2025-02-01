@@ -7,6 +7,7 @@ import PopUpBtn from "./PopUpBtn";
 import api from "../Api";
 import { ACCESS_TOKEN } from "../Constants";
 import { jwtDecode } from "jwt-decode";
+import { Audio } from 'react-loader-spinner';
 
 
 const Products = () => {
@@ -110,9 +111,6 @@ useEffect(() => {
 
   return (
     <>
-    {loading && 
-      <p className="Loading">Loading........</p>
-    }
     {
       error && 
       <p className="error">Error....</p>
@@ -137,7 +135,7 @@ useEffect(() => {
             </div>
           </div>
         </>
-      )}
+      )} 
       <div className="product-main-container">
         <div className="product-header-container">
           <h1>Products</h1>
@@ -176,6 +174,20 @@ useEffect(() => {
               <img src={item.ProductImg} alt="Nestle EveryDay" />
             </div>
           ))}
+           {loading && 
+    <center>
+      <p className="Loading"><Audio
+      height="50"
+      width="50"
+      radius="9"
+      color="white"
+      ariaLabel="loading"
+      wrapperStyle
+      wrapperClass
+    />
+    </p>
+    </center>
+    }
         </div>
       </div>
       <button className="addProductButton" onClick={navigateToAddProducts}>

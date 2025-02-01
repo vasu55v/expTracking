@@ -7,21 +7,18 @@ import PopUpBtn from "./PopUpBtn";
 import api from "../Api";
 import { ACCESS_TOKEN } from "../Constants";
 import { jwtDecode } from "jwt-decode";
-import { Audio } from 'react-loader-spinner';
-
+import { Audio } from "react-loader-spinner";
 
 const Products = () => {
   const navigate = useNavigate();
   const [IsOpen, SetIsOpen] = useState(false);
-  const [userId,setUserId]=useState(null);
+  const [userId, setUserId] = useState(null);
   const [MainUserId, setMainUserId] = useState(null);
-  const [ProductData, setProductData] =useState([]);
+  const [ProductData, setProductData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
- 
-
-   useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
       try {
@@ -34,12 +31,47 @@ const Products = () => {
     }
   }, []);
 
-useEffect(() => {
+  
+  const navigateToHome = () => {
+    navigate("/");
+  };
+
+  const navigateToAddProducts = () => {
+    navigate("/AddProduct");
+  };
+
+  const showPopup = () => {
+    SetIsOpen(true);
+  };
+
+  const closePopup = () => {
+    SetIsOpen(false);
+  };
+
+    const [Filter,setFilter] = useState("Name");
+
+  const handleButton1 = () => {
+    // alert("Button 1 clicked");
+    setFilter("Name")
+    closePopup();
+  };
+
+  const handleButton2 = () => {
+    // alert("Button 2 clicked");
+    setFilter("ExpiryDate")
+    closePopup();
+  };
+
+ 
+
+  useEffect(() => {
     if (userId) {
       const fetchMainUser = async () => {
         try {
           setLoading(true);
-          const response = await fetch(`http://127.0.0.1:8000/track/MainUserList/${userId}/`);
+          const response = await fetch(
+            `http://127.0.0.1:8000/track/MainUserList/${userId}/`
+          );
           if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);
           }
@@ -57,90 +89,56 @@ useEffect(() => {
     }
   }, [userId]);
 
-   useEffect(()=>{
-        if (MainUserId) {
-
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`http://127.0.0.1:8000/track/Products/${MainUserId}/`); // Replace with your API URL
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+  useEffect(() => {
+    if (MainUserId) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            `http://127.0.0.1:8000/track/Products/${MainUserId}/${Filter}/`
+          ); 
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+          const result = await response.json();
+          // setMainUserId("result",result[0].id);
+          console.log("result:", result);
+          setProductData(result);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
         }
-        const result = await response.json();
-        // setMainUserId("result",result[0].id);
-        console.log("result:",result)
-        setProductData(result)
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }
-   },[MainUserId])
-
-
-
-  const navigateToHome = () => {
-    navigate("/");
-  };
-
-  const navigateToAddProducts = () => {
-    navigate("/AddProduct");
-  };
-
-  const showPopup = () => {
-    SetIsOpen(true);
-  };
-
-  const closePopup = () => {
-    SetIsOpen(false);
-  };
-
-  const handleButton1 = () => {
-    alert("Button 1 clicked");
-    closePopup();
-  };
-
-  const handleButton2 = () => {
-    alert("Button 2 clicked");
-    closePopup();
-  };
+      };
+      fetchData();
+    }
+  }, [MainUserId, Filter]);
 
   return (
     <>
-    {
-      error && 
-      <p className="error">Error....</p>
-    }
+      {error && <p className="error">Error....</p>}
       {IsOpen && (
         <>
-          <div 
-            className="overlay" 
-            id="overlay" 
-            onClick={closePopup} 
-            style={{ display: 'block' }}
+          <div
+            className="overlay"
+            id="overlay"
+            onClick={closePopup}
+            style={{ display: "block" }}
           />
-          <div 
-            className="popup" 
-            id="popup" 
-            style={{ display: 'block' }}
-          >
-            <h2>Popup Title</h2>
+          <div className="popup" id="popup" style={{ display: "block" }}>
+            <h2>Select</h2>
             <div className="popup-buttons">
-              <button onClick={handleButton1}>Button 1</button>
-              <button onClick={handleButton2}>Button 2</button>
+              <button onClick={handleButton1}>By Name</button>
+              <button onClick={handleButton2}>By Expiry</button>
             </div>
           </div>
         </>
-      )} 
+      )}
       <div className="product-main-container">
         <div className="product-header-container">
           <h1>Products</h1>
           <div className="product-header-text">
-            <p>Expiring soon</p>
+            <p onClick={handleButton2}>Expiring soon</p>
             <p onClick={showPopup}>
               <svg
                 className="svg-hide"
@@ -174,20 +172,21 @@ useEffect(() => {
               <img src={item.ProductImg} alt="Nestle EveryDay" />
             </div>
           ))}
-           {loading && 
-    <center>
-      <p className="Loading"><Audio
-      height="50"
-      width="50"
-      radius="9"
-      color="white"
-      ariaLabel="loading"
-      wrapperStyle
-      wrapperClass
-    />
-    </p>
-    </center>
-    }
+          {loading && (
+            <center>
+              <p className="Loading">
+                <Audio
+                  height="50"
+                  width="50"
+                  radius="9"
+                  color="white"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+              </p>
+            </center>
+          )}
         </div>
       </div>
       <button className="addProductButton" onClick={navigateToAddProducts}>

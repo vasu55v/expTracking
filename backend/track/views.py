@@ -42,6 +42,29 @@ class ProductAsPerUserView(generics.ListAPIView):
         qs=qs.filter(user=user_id)
         return qs
 
+ 
+class ProductAsPerUserByNameFilterView(generics.ListAPIView):
+    queryset=Product.objects.all() 
+    serializer_class=ProductDetailSerializer
+    permission_classes=[AllowAny]
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        user_id=self.kwargs["id"]
+        qs=qs.filter(user=user_id).order_by("ProductName")
+        return qs   
+    
+class ProductAsPerUserByExpiryDateFilterView(generics.ListAPIView):
+    queryset=Product.objects.all() 
+    serializer_class=ProductDetailSerializer
+    permission_classes=[AllowAny]
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        user_id=self.kwargs["id"]
+        qs=qs.filter(user=user_id).order_by("ExpiryDate")
+        return qs  
+
 class OneProductAsPerUserView(generics.ListAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductDetailSerializer

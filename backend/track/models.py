@@ -10,7 +10,6 @@ class MainUserModel(models.Model):
         return f"{self.user.username}-----{self.ProfileImg}"
         # return self.ProfileImg
 
-
 class Product(models.Model):
     user=models.ForeignKey(MainUserModel, on_delete=models.CASCADE,related_name='products')
     ProductName=models.CharField(max_length=200)

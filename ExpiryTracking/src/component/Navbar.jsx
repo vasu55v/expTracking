@@ -14,6 +14,7 @@ const Navbar = () => {
   const [token, SetToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [MainUserId, setMainUserId] = useState(null);
+  const [GetUserId, SetGetUserId] = useState(null);
   const Toggle = () => {
     SetOpen(!open);
   };
@@ -35,54 +36,70 @@ const Navbar = () => {
     if (AccessToken) {
       SetToken(AccessToken);
       const decoded = jwtDecode(AccessToken);
-      console.log(decoded.user_id)
+      console.log(decoded.user_id);
       setUserId(decoded.user_id);
-
     }
   }, []);
 
-
-  const [ProfileImg,SetProfileImg]=useState(null);
-  
-    useEffect(() => {
-      if (userId) {
-        const fetchMainUser = async () => {
-          try {
-            // setLoading(true);
-            const response = await fetch(
-              `http://127.0.0.1:8000/track/MainUserList/${userId}/`
-            );
-            if (!response.ok) {
-              throw new Error(`Error: ${response.statusText}`);
-            }
-            const result = await response.json();
-            // console.log("result",result)
-            if (result.length > 0) {
-              setMainUserId(result[0].id);
-              SetProfileImg(result[0].ProfileImg)
-            }
-          } catch (err) {
-            // setError(err.message);
-            consolelog(err)
-          } finally {
-            // setLoading(false);
-            console.log("done")
-          }
-        };
-        fetchMainUser();
-      }
-    }, [userId]);
+  const [ProfileImg, SetProfileImg] = useState(null);
 
   useEffect(() => {
-    if(MainUserId){
-    api.get(`track/MainUserList/${MainUserId}/`)
-    .then((response)=>{
-      console.log("response",response)
-    })
-    .catch((error)=>{
-      console.log(error)
-    })
-  }
+    if (userId) {
+      const fetchMainUser = async () => {
+        try {
+          // setLoading(true);
+          const response = await fetch(
+            `http://127.0.0.1:8000/track/MainUserList/${userId}/`
+          );
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+          const result = await response.json();
+          // console.log("result",result)
+          console.log("data",result[0])
+          if (result.length > 0) {
+            setMainUserId(result[0].id);
+            SetProfileImg(result[0].ProfileImg);
+            SetGetUserId(result[0].user);
+          }
+        } catch (err) {
+          // setError(err.message);
+          consolelog(err);
+        } finally {
+          // setLoading(false);
+          console.log("done");
+        }
+      };
+      fetchMainUser();
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (GetUserId) {
+      api
+        .get(`track/MainUserList/${GetUserId}/`)
+        .then((response) => {
+          console.log("response", response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [GetUserId]);
+
+  const [UserName,setUserName]=useState("");
+
+  useEffect(() => {
+    if (MainUserId) {
+      api
+        .get(`track/UserDetailList/${MainUserId}/`)
+        .then((response) => {
+         setUserName(response.data[0].username);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [MainUserId]);
 
   return (
@@ -95,12 +112,8 @@ const Navbar = () => {
             style={{ display: "block" }}
           />
           <div className="popup" style={{ display: "block" }}>
-            <img
-              src={ProfileImg}
-              className="profile-img"
-              alt="Profile"
-            />
-            <div className="user-name">John Doe</div>
+            <img src={ProfileImg} className="profile-img" alt="Profile" />
+            <div className="user-name">{UserName}</div>
           </div>
         </>
       )}
@@ -143,14 +156,17 @@ const Navbar = () => {
             </li>
           )}
           <li>
-            <img
-              src={ProfileImg}
-              height={30}
-              className="profileImageNav"
-              alt="Profile Image"
-              onClick={toggleProfilePopup}
-              style={{ cursor: "pointer" }}
-            />
+           
+            {ProfileImg && (
+              <img
+                src={ProfileImg}
+                height={30}
+                className="profileImageNav"
+                alt="Profile Image"
+                onClick={toggleProfilePopup}
+                style={{ cursor: "pointer" }}
+              />
+            )}
           </li>
         </ul>
       </nav>

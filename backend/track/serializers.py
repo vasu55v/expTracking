@@ -20,7 +20,7 @@ class MainUserSerializer(serializers.ModelSerializer):
         fields=["id","user","ProfileImg"]
 
 class MainUserSerializerDetail(serializers.ModelSerializer):
-    user=UserSerializer
+    user=UserSerializerNoPassword
     class Meta:
         model=MainUserModel
         fields=["id","user","ProfileImg"]

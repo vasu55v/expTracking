@@ -76,7 +76,7 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="register-button">
-            Register
+            Done
           </button>
         </form>
       </div>

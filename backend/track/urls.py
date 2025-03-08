@@ -11,6 +11,7 @@ urlpatterns = [
     path("AddProduct/",ProductCreateView.as_view()),
     path("UpdateProduct/<int:pk>/",ProductDetailUpdateView.as_view()),
     path("MainUserList/<int:id>/",MainUserListView.as_view()),
+    path("UserDetailList/<int:id>/",GetUserView.as_view()),
     path('User/Create/',User_register_view),
     path('User/Login/',User_login),
 ]

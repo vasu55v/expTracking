@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/signup.css";
 import { useNavigate } from "react-router-dom";
 import api from "../Api";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN,REFRESH_TOKEN } from "../Constants";
 
 const SignUp = () => {
   const [previewUrl, setPreviewUrl] = useState("");
@@ -74,7 +76,9 @@ const SignUp = () => {
         });
         // window.location.reload();
         Cookies.set("Customer_id", response.data.customer_id);
-        // navigate('/login');
+        if(Cookies.get("Customer_id")){
+        navigate('/login');
+        }
       })
       .catch((error) => {
         console.error("Registration error:", error);
